@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useVentes } from '../hooks/useVentes';
 import { useMedicaments } from '../hooks/useMedicaments';
-import { createVente } from '../api/ventesApi';
+import { createVente, annulerVente } from '../api/ventesApi';
 import { FaReceipt, FaPlus, FaTimes, FaTrash, FaCheckCircle, FaBan, FaClock } from 'react-icons/fa';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import ErrorMessage from '../components/common/ErrorMessage';
@@ -50,7 +50,7 @@ function VentesPage() {
   const handleAnnuler = async (id, reference) => {
     if (!window.confirm(`Annuler la vente ${reference} ?`)) return;
     try {
-      await fetch(`${import.meta.env.VITE_API_URL}/ventes/${id}/annuler/`, { method: 'POST' });
+      await annulerVente(id);
       reload();
     } catch {
       alert('Erreur lors de l\'annulation.');
