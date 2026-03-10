@@ -10,6 +10,7 @@ Application web de gestion de pharmacie développée dans le cadre du test techn
 |------|-------------|
 | Backend | Python, Django 5.x, Django REST Framework |
 | Base de données | PostgreSQL |
+| Tests | Django TestCase + DRF APIClient |
 | Documentation API | Swagger (drf-spectacular) |
 | Frontend | React.js (Vite 4), Axios, React Router |
 | Authentification | JWT (djangorestframework-simplejwt) |
@@ -193,6 +194,20 @@ pharma-manager/
 ```
 
 ---
+
+## Tests
+
+Lancer les tests unitaires :
+```bash
+cd backend
+venv\Scripts\activate
+python manage.py test
+```
+
+Couverture des tests :
+- Modèle Medicament (création, alerte stock, soft delete, str)
+- API Medicaments (liste, création, suppression, alertes, accès non autorisé)
+- API Ventes (création avec déduction stock, annulation avec réintégration stock)
 
 ## Développé par
 
