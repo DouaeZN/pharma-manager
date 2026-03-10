@@ -6,8 +6,10 @@ import { FaPills, FaPlus, FaTimes, FaSearch, FaTrash, FaExclamationTriangle, FaC
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import ErrorMessage from '../components/common/ErrorMessage';
 
+
 function MedicamentsPage() {
-  const { medicaments, alertes, loading, error, reload } = useMedicaments();
+  const [page, setPage] = useState(1);
+  const { medicaments, alertes, metadata, loading, error, reload } = useMedicaments(page);
   const { categories } = useCategories();
   const [showForm, setShowForm] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -15,6 +17,7 @@ function MedicamentsPage() {
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState(null);
   const [search, setSearch] = useState('');
+  
 
   const emptyForm = {
     nom: '', dci: '', categorie: '', forme: 'comprime',
@@ -275,6 +278,40 @@ function MedicamentsPage() {
             )}
           </tbody>
         </table>
+        {/* Pagination */}
+        {metadata && metadata.total_pages > 1 && (
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: '1rem',
+            marginTop: '1.5rem',
+            paddingTop: '1rem',
+            borderTop: '1px solid #e8f0fe'
+          }}>
+            <button
+              className="btn"
+              onClick={() => setPage(page - 1)}
+              disabled={!metadata.has_previous}
+              style={{ background: '#e0f2fe', color: '#0369a1' }}
+            >
+              ‹
+            </button>
+
+            <span style={{ fontWeight: 600, color: '#1a2332' }}>
+              Page {metadata.current_page} / {metadata.total_pages}
+            </span>
+
+            <button
+              className="btn"
+              onClick={() => setPage(page + 1)}
+              disabled={!metadata.has_next}
+              style={{ background: '#e0f2fe', color: '#0369a1' }}
+            >
+              ›
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

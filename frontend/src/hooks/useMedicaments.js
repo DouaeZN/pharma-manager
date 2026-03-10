@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
 import { fetchMedicaments, fetchAlertes } from '../api/medicamentsApi';
 
-/**
- * Hook pour gérer la liste des médicaments et les alertes de stock.
- */
-export const useMedicaments = () => {
+export const useMedicaments = (page = 1) => {
   const [medicaments, setMedicaments] = useState([]);
   const [alertes, setAlertes] = useState([]);
+  const [metadata, setMetadata] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -14,8 +12,9 @@ export const useMedicaments = () => {
     setLoading(true);
     setError(null);
     try {
-      const data = await fetchMedicaments();
+      const data = await fetchMedicaments({ page });
       setMedicaments(data.results || data);
+      setMetadata(data.metadata || null);
       const alertesData = await fetchAlertes();
       setAlertes(alertesData.results || alertesData);
     } catch (err) {
@@ -27,7 +26,7 @@ export const useMedicaments = () => {
 
   useEffect(() => {
     loadMedicaments();
-  }, []);
+  }, [page]);
 
-  return { medicaments, alertes, loading, error, reload: loadMedicaments };
+  return { medicaments, alertes, metadata, loading, error, reload: loadMedicaments };
 };
