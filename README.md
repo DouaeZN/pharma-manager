@@ -12,12 +12,14 @@ Application web de gestion de pharmacie développée dans le cadre du test techn
 | Base de données | PostgreSQL |
 | Documentation API | Swagger (drf-spectacular) |
 | Frontend | React.js (Vite 4), Axios, React Router |
+| Authentification | JWT (djangorestframework-simplejwt) |
 | Versioning | Git & GitHub (Conventional Commits) |
 
 ---
 
 ## Fonctionnalités
 
+- Authentification sécurisée avec JWT
 - Gestion complète des médicaments (CRUD + soft delete)
 - Alertes automatiques de stock bas
 - Réapprovisionnement du stock
@@ -25,6 +27,9 @@ Application web de gestion de pharmacie développée dans le cadre du test techn
 - Création de ventes multi-articles avec déduction de stock automatique
 - Annulation de vente avec réintégration du stock
 - Dashboard avec indicateurs clés (KPIs)
+- Pagination personnalisée avec métadonnées
+- Filtres avancés (prix, catégorie, stock, date expiration)
+- Export CSV de l'inventaire
 - Documentation API Swagger interactive
 - Architecture clean code (séparation api / hooks / components)
 
@@ -32,11 +37,14 @@ Application web de gestion de pharmacie développée dans le cadre du test techn
 
 ## Apercu de l'Application
 
+### Login
+![Login](docs/screenshots/login.png)
+
 ### Dashboard
 ![Dashboard](docs/screenshots/dashboard.png)
 
 ### Medicaments
-![Medicaments](docs/screenshots/medicaments2.png)
+![Medicaments](docs/screenshots/medicaments.png)
 
 ### Formulaire Ajout et Modification
 ![Formulaire](docs/screenshots/medicaments-form.png)
@@ -90,6 +98,11 @@ CREATE DATABASE pharma_db;
 \q
 ```
 
+### Creer un superutilisateur
+```bash
+python manage.py createsuperuser
+```
+
 ### Lancer le serveur
 ```bash
 python manage.py migrate
@@ -137,11 +150,14 @@ http://localhost:8000/api/schema/swagger-ui/
 
 | Methode | Endpoint | Description |
 |---------|----------|-------------|
+| POST | `/api/v1/auth/login/` | Obtenir token JWT |
+| POST | `/api/v1/auth/refresh/` | Rafraichir token JWT |
 | GET | `/api/v1/medicaments/` | Liste des medicaments |
 | POST | `/api/v1/medicaments/` | Creer un medicament |
 | PUT/PATCH | `/api/v1/medicaments/{id}/` | Modifier un medicament |
 | DELETE | `/api/v1/medicaments/{id}/` | Soft delete |
 | GET | `/api/v1/medicaments/alertes/` | Medicaments en alerte |
+| GET | `/api/v1/medicaments/export_csv/` | Export CSV inventaire |
 | GET | `/api/v1/categories/` | Liste des categories |
 | POST | `/api/v1/ventes/` | Creer une vente |
 | POST | `/api/v1/ventes/{id}/annuler/` | Annuler une vente |
@@ -156,7 +172,11 @@ pharma-manager/
 │   │   ├── medicaments/    # Gestion des medicaments
 │   │   ├── ventes/         # Gestion des ventes
 │   │   └── categories/     # Gestion des categories
-│   ├── config/             # Configuration Django
+│   ├── config/
+│   │   ├── settings/
+│   │   │   ├── base.py     # Settings communs
+│   │   │   └── local.py    # Settings developpement
+│   │   └── urls.py
 │   ├── .env.example
 │   ├── requirements.txt
 │   └── manage.py
