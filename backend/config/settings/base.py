@@ -4,6 +4,8 @@ Settings communs — partagés entre tous les environnements.
 
 from pathlib import Path
 from decouple import config
+from datetime import timedelta
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -89,6 +91,17 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_PAGINATION_CLASS': 'apps.pagination.CustomPagination',
     'PAGE_SIZE': 5,
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
+    ],
 }
 
 SPECTACULAR_SETTINGS = {
@@ -96,4 +109,10 @@ SPECTACULAR_SETTINGS = {
     'DESCRIPTION': 'API de gestion de pharmacie — SMARTHOLOL',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': True,
 }

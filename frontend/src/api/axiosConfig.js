@@ -1,13 +1,27 @@
 import axios from 'axios';
 
-/**
- * Instance Axios configurée avec la baseURL depuis les variables d'environnement.
- */
-const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1',
-  headers: {
-    'Content-Type': 'application/json',
-  },
+const api = axios.create({
+  baseURL: 'http://localhost:8000/api/v1',
 });
 
-export default axiosInstance;
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('access_token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
+
+export default api;
