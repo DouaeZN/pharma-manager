@@ -2,8 +2,6 @@
 
 Application web de gestion de pharmacie développée dans le cadre du test technique SMARTHOLOL.
 
-![Dashboard](docs/screenshots/dashboard.png)
-
 ---
 
 ## Stack Technique
@@ -38,7 +36,7 @@ Application web de gestion de pharmacie développée dans le cadre du test techn
 ![Dashboard](docs/screenshots/dashboard.png)
 
 ### Medicaments
-![Medicaments](docs/screenshots/medicaments.png)
+![Medicaments](docs/screenshots/medicaments2.png)
 
 ### Formulaire Ajout et Modification
 ![Formulaire](docs/screenshots/medicaments-form.png)
