@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useMedicaments } from '../hooks/useMedicaments';
 import { useCategories } from '../hooks/useCategories';
 import { createMedicament, deleteMedicament, updateStock, updateMedicament } from '../api/medicamentsApi';
-import { FaPills, FaPlus, FaTimes, FaSearch, FaTrash, FaExclamationTriangle, FaCheckCircle, FaBoxes, FaEdit } from 'react-icons/fa';
+import { FaPills, FaPlus, FaTimes, FaSearch, FaTrash, FaExclamationTriangle, FaCheckCircle, FaBoxes, FaEdit, FaFileCsv } from 'react-icons/fa';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import ErrorMessage from '../components/common/ErrorMessage';
 
@@ -113,10 +113,23 @@ function MedicamentsPage() {
         <h1 className="page-title" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <FaPills style={{ color: '#0d4f8c' }} /> Médicaments
         </h1>
-        <button className="btn btn-primary" onClick={() => showForm ? handleCloseForm() : setShowForm(true)}
-          style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-          {showForm ? <><FaTimes /> Fermer</> : <><FaPlus /> Ajouter</>}
-        </button>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <a
+            href="http://localhost:8000/api/v1/medicaments/export_csv/"
+            className="btn btn-success"
+            style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}
+            download
+          >
+            <FaFileCsv /> Export CSV
+          </a>
+          <button
+            className="btn btn-primary"
+            onClick={() => showForm ? handleCloseForm() : setShowForm(true)}
+            style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}
+          >
+            {showForm ? <><FaTimes /> Fermer</> : <><FaPlus /> Ajouter</>}
+          </button>
+        </div>
       </div>
 
       {alertes.length > 0 && (
