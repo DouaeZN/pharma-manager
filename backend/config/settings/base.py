@@ -85,6 +85,8 @@ STATIC_URL = 'static/'
 
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_PAGINATION_CLASS': 'apps.pagination.CustomPagination',
+    'PAGE_SIZE': 5,
 }
 
 SPECTACULAR_SETTINGS = {
