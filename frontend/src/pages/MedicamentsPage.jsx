@@ -3,6 +3,8 @@ import { useMedicaments } from '../hooks/useMedicaments';
 import { useCategories } from '../hooks/useCategories';
 import { createMedicament, deleteMedicament, updateStock, updateMedicament } from '../api/medicamentsApi';
 import { FaPills, FaPlus, FaTimes, FaSearch, FaTrash, FaExclamationTriangle, FaCheckCircle, FaBoxes, FaEdit } from 'react-icons/fa';
+import LoadingSpinner from '../components/common/LoadingSpinner';
+import ErrorMessage from '../components/common/ErrorMessage';
 
 function MedicamentsPage() {
   const { medicaments, alertes, loading, error, reload } = useMedicaments();
@@ -100,7 +102,7 @@ function MedicamentsPage() {
     m.nom.toLowerCase().includes(search.toLowerCase())
   );
 
-  if (loading) return <div className="loading">Chargement...</div>;
+  if (loading) return <LoadingSpinner />;
 
   return (
     <div>
@@ -121,7 +123,7 @@ function MedicamentsPage() {
         </div>
       )}
 
-      {error && <div className="error-msg">{error}</div>}
+      {error && <ErrorMessage message={error} />}
 
       {/* Formulaire Ajout / Modification */}
       {showForm && (

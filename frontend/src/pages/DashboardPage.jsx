@@ -1,6 +1,8 @@
 import { useMedicaments } from '../hooks/useMedicaments';
 import { useVentes } from '../hooks/useVentes';
 import { FaPills, FaExclamationTriangle, FaShoppingCart, FaCalendarDay } from 'react-icons/fa';
+import LoadingSpinner from '../components/common/LoadingSpinner';
+import ErrorMessage from '../components/common/ErrorMessage';
 
 /**
  * Page Dashboard — Vue d'ensemble de la pharmacie.
@@ -17,7 +19,8 @@ function DashboardPage() {
     (sum, v) => sum + parseFloat(v.total_ttc || 0), 0
   );
 
-  if (loading) return <div className="loading">Chargement...</div>;
+  if (loading) return <LoadingSpinner />;
+
 
   return (
     <div>

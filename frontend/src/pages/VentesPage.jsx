@@ -3,6 +3,9 @@ import { useVentes } from '../hooks/useVentes';
 import { useMedicaments } from '../hooks/useMedicaments';
 import { createVente } from '../api/ventesApi';
 import { FaReceipt, FaPlus, FaTimes, FaTrash, FaCheckCircle, FaBan, FaClock } from 'react-icons/fa';
+import LoadingSpinner from '../components/common/LoadingSpinner';
+import ErrorMessage from '../components/common/ErrorMessage';
+import SuccessMessage from '../components/common/SuccessMessage';
 
 /**
  * Page Ventes — Historique et création de ventes.
@@ -54,7 +57,7 @@ function VentesPage() {
     }
   };
 
-  if (loading) return <div className="loading">Chargement...</div>;
+  if (loading) return <LoadingSpinner />;
 
   return (
     <div>
@@ -68,13 +71,11 @@ function VentesPage() {
         </button>
       </div>
 
-      {error && <div className="error-msg">{error}</div>}
+      {error && <ErrorMessage message={error} />}
 
-      {successMsg && (
-        <div style={{ background: '#dcfce7', color: '#16a34a', padding: '1rem', borderRadius: '8px', marginBottom: '1rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <FaCheckCircle /> {successMsg}
-        </div>
-      )}
+
+      {successMsg && <SuccessMessage message={successMsg} />}
+
 
       {/* Formulaire nouvelle vente */}
       {showForm && (
